@@ -14,14 +14,14 @@ reminders = {}
 TIMEOUT = 60 * 5 # 5 minutes
 
 
-@bot.message_handler(commands=['check_series'])
-def check_new_series(message):
-    global previous_series
-    series = lib.get_new_series()
-    if previous_series != series:
-        bot.send_message(message.chat.id, lib.format_message(series))
-        previous_series = series
-
+#@bot.message_handler(commands=['check_series'])
+#def check_new_series(message):
+#    global previous_series
+#    series = lib.get_new_series()
+#    if previous_series != series:
+#        bot.send_message(message.chat.id, lib.format_message(series))
+#        previous_series = series
+#
 
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
@@ -51,18 +51,18 @@ def remove_remind(message):
 
 
 
-def broadcast_new_series():
-    global previous_series
-    while True:
-        logging.info("[SERIES] Started new broadcasting")
-        logging.info("[SERIES] Subscribers {0}".format(series_subscribers))
-        series = lib.get_new_series()
-        for user in series_subscribers.items():
-            previous_series = user[1]["previous_series"]
-            if previous_series != series:
-                bot.send_message(user[0], lib.format_message(series))
-                user[1]["previous_series"] = series
-        time.sleep(TIMEOUT)
+#def broadcast_new_series():
+#    global previous_series
+#    while True:
+#        logging.info("[SERIES] Started new broadcasting")
+#        logging.info("[SERIES] Subscribers {0}".format(series_subscribers))
+#        series = lib.get_new_series()
+#        for user in series_subscribers.items():
+#            previous_series = user[1]["previous_series"]
+#            if previous_series != series:
+#                bot.send_message(user[0], lib.format_message(series))
+#                user[1]["previous_series"] = series
+#        time.sleep(TIMEOUT)
 
 
 def remind(chat_id):
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                         # filename='bot_log.log',
                          datefmt='%d.%m.%Y %H:%M:%S')
     logging.info("[App] Logger init")
-    _thread.start_new_thread(broadcast_new_series, ())
+#    _thread.start_new_thread(broadcast_new_series, ())
     logging.info("[App] Bot start")
     bot.polling(none_stop=True)
 
