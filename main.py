@@ -10,7 +10,8 @@ import _thread
 
 bot = telebot.AsyncTeleBot(config.token)
 series_subscribers = {}
-TIMEOUT = 60  * 5 # 5 minutes
+reminders = {}
+TIMEOUT = 60 * 5 # 5 minutes
 
 
 @bot.message_handler(commands=['check_series'])
@@ -34,6 +35,22 @@ def unsubscribe(message):
     bot.send_message(message.chat.id, "unsubscribed on series updates")
 
 
+@bot.message_handler(commands=['remind_start'])
+def set_remind(message):
+    bot.send_message(message.chat.id, "reminder started ")
+    reminders[message.chat.id] = True
+    _thread.start_new_thread(remind, (message.chat.id,))
+    logging.info("[Reminder] Started reminder for {0}".format(message.chat.id))
+
+
+@bot.message_handler(commands=['remind_stop'])
+def remove_remind(message):
+    bot.send_message(message.chat.id, "reminder stopped ")
+    logging.info("[Reminder] Stopped reminder for {0}".format(message.chat.id))
+    reminders[message.chat.id] = False
+
+
+
 def broadcast_new_series():
     global previous_series
     while True:
@@ -46,6 +63,17 @@ def broadcast_new_series():
                 bot.send_message(user[0], lib.format_message(series))
                 user[1]["previous_series"] = series
         time.sleep(TIMEOUT)
+
+
+def remind(chat_id):
+    global reminders
+    while reminders[chat_id]:
+        bot.send_message(chat_id, "drink water beatch")
+        time.sleep(60 * 30 ) # 30 minutes
+
+@bot.message_handler(func=lambda m: True)
+def echo_all(message):
+    logging.info("[Spy] {0} : {1}".format(message.chat.id, message.text))
 
 
 if __name__ == '__main__':
