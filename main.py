@@ -80,10 +80,10 @@ if __name__ == '__main__':
     previous_series = []
     logging.getLogger('requests').setLevel(logging.CRITICAL)
     logging.basicConfig(format='[%(asctime)s] %(filename)s:%(lineno)d %(levelname)s - %(message)s', level=logging.INFO,
-                        # filename='bot_log.log',
+                         filename='bot_log.log',
                          datefmt='%d.%m.%Y %H:%M:%S')
-    logging.info("[App] Logger init")
+    logging.getLogger('requests').info("[App] Logger init")
     _thread.start_new_thread(broadcast_new_series, ())
-    logging.info("[App] Bot start")
+    logging.getLogger('requests').info("[App] Bot start")
     bot.polling(none_stop=True)
 
