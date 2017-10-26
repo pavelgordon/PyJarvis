@@ -1,0 +1,4 @@
+[26.10.2017 10:24:02] main.py:86 INFO - [App] Logger init
+[26.10.2017 10:24:02] main.py:88 INFO - [App] Bot start
+[26.10.2017 10:24:37] main.py:43 INFO - [Reminder] Started reminder for 42614511
+[26.10.2017 10:24:40] main.py:49 INFO - [Reminder] Stopped reminder for 42614511
